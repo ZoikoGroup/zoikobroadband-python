@@ -41,7 +41,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'zoikobroadband.com',
     'api.zoikobroadband.com',
-    'react.zoikobroadband.com',
+    '34.147.150.254',
     'localhost',
     '127.0.0.1',
     '127.0.0.1:8000',
