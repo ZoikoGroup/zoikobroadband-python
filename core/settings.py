@@ -39,11 +39,12 @@ DEBUG = True
 
 #ALLOWED_HOSTS = []
 ALLOWED_HOSTS = [
-    'goliteapi.golitemobile.com',
-    '34.100.195.29',
+    'zoikobroadband.com',
+    'api.zoikobroadband.com',
+    'react.zoikobroadband.com',
     'localhost',
     '127.0.0.1',
-    'http://127.0.0.1:8000',
+    '127.0.0.1:8000',
 ]
 
 
