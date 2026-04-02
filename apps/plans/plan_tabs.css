@@ -36,7 +36,7 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* BT Plan ID monospace */
+/* BTBT Plan ID monospace */
 .field-bt_plan_id input,
 .field-effective_bt_plan_id_col {
     font-family: "SFMono-Regular", Consolas, monospace;

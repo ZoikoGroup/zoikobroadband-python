@@ -31,7 +31,7 @@ class PlanCategory(models.Model):
 
 class Plan(models.Model):
     """
-    A plan product with general settings and BrainTree integration fields.
+    A plan product with general settings and  integration fields.
     Actual pricing/duration lives in PlanVariation.
     """
 
@@ -46,16 +46,16 @@ class Plan(models.Model):
     name = models.CharField(_("Plan Name"), max_length=200)
     slug = models.SlugField(_("Plan Slug"), max_length=220, unique=True, blank=True)
     bt_plan_id = models.CharField(
-        _("BrainTree Plan ID"),
+        _("BT Plan ID"),
         max_length=100,
         blank=True,
-        help_text=_("Plan ID as registered in BrainTree."),
+        help_text=_("Plan ID as registered in ."),
     )
     bt_plan_name = models.CharField(
-        _("BrainTree Plan Name"),
+        _(" BT Plan Name"),
         max_length=200,
         blank=True,
-        help_text=_("Plan name as it appears in BrainTree."),
+        help_text=_("Plan name as it appears in ."),
     )
     description = models.TextField(_("Description"), blank=True)
     is_active = models.BooleanField(_("Active"), default=True)
@@ -130,24 +130,36 @@ class PlanVariation(models.Model):
         decimal_places=2,
         validators=[MinValueValidator(0)],
     )
-    currency = models.CharField(_("Currency"), max_length=3, default="USD")
-    discount_percentage = models.DecimalField(
-        _("Discount %"),
-        max_digits=5,
+    
+    sale_price = models.DecimalField(
+            max_digits=10,
+            decimal_places=2,
+            null=True,
+            blank=True,
+            validators=[MinValueValidator(0)],
+            help_text="Optional sale price (overrides regular price)"
+        )
+    
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+    sale_price = models.DecimalField(
+        max_digits=10,
         decimal_places=2,
-        default=0,
-        validators=[MinValueValidator(0)],
-        help_text=_("Optional promotional discount percentage."),
+        null=True,
+        blank=True
     )
 
-    # BrainTree variation-level fields (can override plan-level)
+    @property
+    def final_price(self):
+        return self.sale_price if self.sale_price else self.price
+    #  variation-level fields (can override plan-level)
     bt_plan_id = models.CharField(
-        _("BrainTree Plan ID"),
+        _("BT Plan ID"),
         max_length=100,
         blank=True,
         help_text=_(
             "Leave blank to inherit from the parent plan. "
-            "Set this if BrainTree has a separate plan per variation."
+            "Set this if  has a separate plan per variation."
         ),
     )
 
