@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Order
-from django.utils.html import format_html
+from django.utils.safestring  import mark_safe
 import json
 
 
@@ -20,7 +20,7 @@ class OrderAdmin(admin.ModelAdmin):
     def formatted_json(self, obj):
         pretty = json.dumps(obj.raw_data, indent=4, sort_keys=True)
 
-        return format_html(
+        return mark_safe(
             """
             <div style="
                 background:#0f172a;
