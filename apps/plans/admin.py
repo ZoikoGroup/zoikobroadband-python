@@ -115,9 +115,7 @@ class PlanAdmin(admin.ModelAdmin):
         low = variations.first()
         high = variations.last()
         if low == high:
-            return format_html(
-                "{} {}", low.currency, low.discounted_price
-            )
+            return format_html("{} {}", low.currency, low.discounted_price)
         return format_html(
             "{} {} – {}",
             low.currency,
