@@ -46,7 +46,7 @@ class PlanByIdView(APIView):
 class PlanByBtPlanIdView(APIView):
     """
     GET /api/v1/plans/bt-id/<str:bt_plan_id>/
-    Returns a single plan matched by BrainTree Plan ID.
+    Returns a single plan matched by BT Plan ID.
     """
 
     def get(self, request, bt_plan_id):
@@ -62,7 +62,7 @@ class PlanByBtPlanIdView(APIView):
 class PlanByBtPlanNameView(APIView):
     """
     GET /api/v1/plans/bt-name/<str:bt_plan_name>/
-    Returns plans matched by BrainTree Plan Name (case-insensitive).
+    Returns plans matched by  BT Plan Name (case-insensitive).
     """
 
     def get(self, request, bt_plan_name):
@@ -78,7 +78,7 @@ class PlanByBtPlanNameView(APIView):
 
         if not plans.exists():
             return Response(
-                {"detail": f"No plans found with BrainTree plan name '{bt_plan_name}'."},
+                {"detail": f"No plans found with  plan name '{bt_plan_name}'."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 

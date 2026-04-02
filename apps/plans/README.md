@@ -1,6 +1,6 @@
 # Plans Module
 
-A Django app for managing variable subscription plans with duration-based pricing variations and BrainTree integration.
+A Django app for managing variable subscription plans with duration-based pricing variations and  integration.
 
 ---
 
@@ -77,14 +77,14 @@ Groups plans logically (e.g., Basic, Pro, Enterprise).
 ---
 
 ### `Plan`
-The main plan entity. Contains BrainTree integration fields.
+The main plan entity. Contains  integration fields.
 
 | Field | Description |
 |---|---|
 | `name` | Plan display name |
 | `slug` | Unique URL slug (auto-generated) |
-| `bt_plan_id` | BrainTree Plan ID |
-| `bt_plan_name` | BrainTree Plan Name |
+| `bt_plan_id` | BT Plan ID |
+| `bt_plan_name` |  BT Plan Name |
 | `category` | FK → PlanCategory |
 | `is_featured` | Highlight in UI |
 
@@ -101,7 +101,7 @@ Each plan can have multiple variations with different durations and prices.
 | `price` | Base price |
 | `currency` | ISO currency code (default: USD) |
 | `discount_percentage` | Optional promo discount |
-| `bt_plan_id` | Override BT Plan ID (falls back to parent) |
+| `bt_plan_id` | Override BTBT Plan ID (falls back to parent) |
 | `is_default` | Mark as recommended option |
 
 ---
@@ -110,7 +110,7 @@ Each plan can have multiple variations with different durations and prices.
 
 The Plan change form uses a **2-tab layout**:
 
-- **⚙ General** — Plan name, slug, BT Plan ID/Name, category, status
+- **⚙ General** — Plan name, slug, BTBT Plan ID/Name, category, status
 - **📦 Plan Variations** — Inline tabular editor for all duration/price variations
 
 Tab switching is handled by `plan_tabs.js` — no extra dependencies needed.
@@ -138,9 +138,9 @@ GET /api/plans/variations/?plan__slug=pro-plan&is_default=true
 
 ---
 
-## BrainTree Integration
+##  Integration
 
-`bt_plan_id` and `bt_plan_name` live on the `Plan` model and correspond to your BrainTree Subscription Plan.
+`bt_plan_id` and `bt_plan_name` live on the `Plan` model and correspond to your  Subscription Plan.
 
 If a `PlanVariation` has its own `bt_plan_id` set, that takes precedence. Otherwise it inherits from the parent `Plan`. Use `variation.effective_bt_plan_id` to always get the correct value.
 
