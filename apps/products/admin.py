@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from django.utils.html import format_html
+from django.utils.safestring  import mark_safe
 from .models import (
     Product,
     ProductAttribute,
@@ -57,7 +57,7 @@ class ProductVariantInline(admin.StackedInline):
 
     def variant_id(self, obj):
         if obj.pk:
-            return format_html("<strong># {}</strong>", obj.pk)
+            return mark_safe("<strong># {}</strong>", obj.pk)
         return "-"
 
     variant_id.short_description = "Variant ID"
