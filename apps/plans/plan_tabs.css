@@ -1,0 +1,58 @@
+/* ── Plan Admin — Tab-style inline labels ─────────────────────────── */
+
+/* Highlight inline module as a "Variations" tab */
+.inline-group > h2 {
+    background: #1a73e8;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 4px 4px 0 0;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+/* Fieldset group styled as a section card */
+.module.aligned fieldset.tab {
+    border: 1px solid #e0e0e0;
+    border-radius: 0 4px 4px 4px;
+    padding: 16px;
+    margin-bottom: 20px;
+    background: #fafafa;
+}
+
+.module.aligned fieldset.tab h2 {
+    background: #f5f5f5;
+    color: #333;
+    border-bottom: 2px solid #1a73e8;
+    padding: 8px 14px;
+    margin: -16px -16px 16px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Price range badge */
+.field-price_range span {
+    font-variant-numeric: tabular-nums;
+}
+
+/* BTBT Plan ID monospace */
+.field-bt_plan_id input,
+.field-effective_bt_plan_id_col {
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 12px;
+}
+
+/* Inline table header */
+.tabular.inline-related thead th {
+    background: #e8f0fe;
+    color: #1a3a6b;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Active / inactive row tinting */
+.tabular.inline-related tr.has_original td {
+    background: #fff;
+}
