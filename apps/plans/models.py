@@ -142,12 +142,12 @@ class PlanVariation(models.Model):
     
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
-    sale_price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        null=True,
-        blank=True
-    )
+    # sale_price = models.DecimalField(
+    #     max_digits=10,
+    #     decimal_places=2,
+    #     null=True,
+    #     blank=True
+    # )
 
     @property
     def final_price(self):
