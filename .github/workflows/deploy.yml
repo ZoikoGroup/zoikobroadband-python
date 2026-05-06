@@ -19,7 +19,7 @@ jobs:
             set -e
             cd /var/www/html/zoikobroadband-python
 
-            # ✅ FIX ownership FIRST
+            # Fix ownership
             sudo chown -R lennox:lennox /var/www/html/zoikobroadband-python
 
             git config --global --add safe.directory /var/www/html/zoikobroadband-python
@@ -28,36 +28,6 @@ jobs:
             git fetch origin
             git reset --hard origin/main
             git clean -fd
-
-            # ✅ Patch ANY plans migration that contains RemoveField('currency')
-            #    regardless of filename — the migration may have been renamed across PRs.
-            /var/www/html/zoikobroadband-python/venv/bin/python - <<'PYEOF'
-            import re, pathlib, sys
-
-            migration_dir = pathlib.Path("/var/www/html/zoikobroadband-python/plans/migrations")
-
-            pattern = re.compile(
-                r"\s*migrations\.RemoveField\(\s*"
-                r"model_name=['\"]planvariation['\"],\s*"
-                r"name=['\"]currency['\"],?\s*"
-                r"\),",
-                re.IGNORECASE
-            )
-
-            patched_any = False
-            for migration_file in sorted(migration_dir.glob("*.py")):
-                src = migration_file.read_text()
-                if "currency" not in src:
-                    continue
-                patched, count = pattern.subn("", src)
-                if count:
-                    migration_file.write_text(patched)
-                    print(f"Patched {migration_file.name}: removed {count} RemoveField('currency') operation(s)")
-                    patched_any = True
-
-            if not patched_any:
-                print("No RemoveField('currency') found in any plans migration — nothing to patch")
-            PYEOF
 
             # Ensure venv exists
             if [ ! -d "venv" ]; then
