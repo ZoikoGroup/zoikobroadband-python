@@ -19,7 +19,7 @@ jobs:
             set -e
             cd /var/www/html/zoikobroadband-python
 
-            # ✅ FIX ownership FIRST
+            # Fix ownership
             sudo chown -R lennox:lennox /var/www/html/zoikobroadband-python
 
             git config --global --add safe.directory /var/www/html/zoikobroadband-python
@@ -28,44 +28,6 @@ jobs:
             git fetch origin
             git reset --hard origin/main
             git clean -fd
-
-            # ✅ Diagnostic: show every migration file that mentions 'currency'
-            echo "--- grep for 'currency' in all migrations ---"
-            grep -rn "currency" /var/www/html/zoikobroadband-python/*/migrations/ || echo "(none found)"
-            echo "----------------------------------------------"
-
-            # ✅ Broad patch: remove ANY RemoveField(name='currency') in ANY app migration
-            /var/www/html/zoikobroadband-python/venv/bin/python - <<'PYEOF'
-            import re, pathlib
-
-            project_root = pathlib.Path("/var/www/html/zoikobroadband-python")
-
-            # Match RemoveField for 'currency' with any model_name, any surrounding whitespace/comma
-            pattern = re.compile(
-                r",?\s*migrations\.RemoveField\(\s*"
-                r"model_name\s*=\s*['\"][^'\"]+['\"],\s*"
-                r"name\s*=\s*['\"]currency['\"],?\s*"
-                r"\)",
-                re.IGNORECASE | re.DOTALL
-            )
-
-            patched_any = False
-            for migration_file in sorted(project_root.rglob("migrations/*.py")):
-                src = migration_file.read_text()
-                if "currency" not in src.lower():
-                    continue
-                print(f"Found 'currency' in: {migration_file.relative_to(project_root)}")
-                patched, count = pattern.subn("", src)
-                if count:
-                    migration_file.write_text(patched)
-                    print(f"  → Patched: removed {count} RemoveField('currency') block(s)")
-                    patched_any = True
-                else:
-                    print(f"  → 'currency' present but no RemoveField block matched (check manually)")
-
-            if not patched_any:
-                print("Nothing patched.")
-            PYEOF
 
             # Ensure venv exists
             if [ ! -d "venv" ]; then
