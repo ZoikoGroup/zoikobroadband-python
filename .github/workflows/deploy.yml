@@ -46,7 +46,7 @@ jobs:
             /var/www/html/zoikobroadband-python/venv/bin/pip install -r requirements.txt --quiet
 
             # Django
-            /var/www/html/zoikobroadband-python/venv/bin/python manage.py migrate --no-input
+            /var/www/html/zoikobroadband-python/venv/bin/python manage.py migrate --fake-initial --no-input
             /var/www/html/zoikobroadband-python/venv/bin/python manage.py collectstatic --no-input
 
             # Restart
