@@ -142,12 +142,12 @@ class PlanVariation(models.Model):
     
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
-    # sale_price = models.DecimalField(
-    #     max_digits=10,
-    #     decimal_places=2,
-    #     null=True,
-    #     blank=True
-    # )
+    sale_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
 
     @property
     def final_price(self):
@@ -188,10 +188,7 @@ class PlanVariation(models.Model):
 
     @property
     def discounted_price(self):
-        if self.discount_percentage:
-            discount = self.price * (self.discount_percentage / 100)
-            return round(self.price - discount, 2)
-        return self.price
+        return self.sale_price if self.sale_price is not None else self.price
 
     @property
     def duration_display(self):

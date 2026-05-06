@@ -4,7 +4,6 @@ from .models import Plan, PlanCategory, PlanVariation
 
 class PlanVariationSerializer(serializers.ModelSerializer):
     duration_display = serializers.ReadOnlyField()
-    discounted_price = serializers.ReadOnlyField()
     effective_bt_plan_id = serializers.ReadOnlyField()
 
     class Meta:
@@ -16,9 +15,7 @@ class PlanVariationSerializer(serializers.ModelSerializer):
             "duration_unit",
             "duration_display",
             "price",
-            # "currency",
-            # "discount_percentage",
-            "discounted_price",
+            "sale_price",
             "bt_plan_id",
             "effective_bt_plan_id",
             "is_default",

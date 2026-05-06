@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'apps.blog',
+    'apps.bundle_requests',
     'apps.products',
     'apps.accounts',
     'apps.plans',
@@ -211,7 +212,7 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "x-requested-with",
 
-    # ✅ ADD THIS
+    #  ADD THIS
     "x-frontend-origin",
 ]
 

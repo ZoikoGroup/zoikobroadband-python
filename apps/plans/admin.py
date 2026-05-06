@@ -1,6 +1,7 @@
 from django.contrib import admin
-from django.utils.html  import format_html
+from django.utils.safestring  import mark_safe
 from django.utils.translation import gettext_lazy as _
+from django.utils.safestring import mark_safe
 from django.core.exceptions import ValidationError
 from .models import Plan, PlanCategory, PlanVariation
 
@@ -37,7 +38,8 @@ class PlanCategoryAdmin(admin.ModelAdmin):
     @admin.display(description=_("Plans"))
     def plan_count(self, obj):
         count = obj.plans.count()
-        return format_html('<span style="font-weight:600">{}</span>', count)
+        html = f'<span style="font-weight:600">{count}</span>'
+        return mark_safe(html)
 
 
 # =========================
@@ -101,18 +103,15 @@ class PlanAdmin(admin.ModelAdmin):
     def variation_count(self, obj):
         count = obj.variations.filter(is_active=True).count()
         color = "#2e7d32" if count else "#c62828"
-        return format_html(
-            '<span style="color:{};font-weight:600">{}</span>',
-            color,
-            count
-        )
+        html = f'<span style="color:{color};font-weight:600">{count}</span>'
+        return mark_safe(html)
 
     @admin.display(description=_("Price Range"))
     def price_range(self, obj):
         variations = obj.variations.filter(is_active=True).order_by("price")
 
         if not variations.exists():
-            return ('<span style="color:#999">—</span>')
+            return mark_safe('<span style="color:#999">—</span>')
 
         low = variations.first()
         high = variations.last()
@@ -181,11 +180,8 @@ class PlanVariationAdmin(admin.ModelAdmin):
     @admin.display(description="Final Price")
     def final_price_col(self, obj):
         if obj.sale_price:
-            return format_html(
-                '<span style="text-decoration:line-through;color:#999;">{}</span> <strong>{}</strong>',
-                obj.price,
-                obj.sale_price
-            )
+            html = f'<span style="text-decoration:line-through;color:#999;">{obj.price}</span> <strong>{obj.sale_price}</strong>'
+            return mark_safe(html)
         return str(obj.price)
     
     @admin.display(description=_("Duration"))
@@ -197,12 +193,10 @@ class PlanVariationAdmin(admin.ModelAdmin):
         eid = obj.effective_bt_plan_id
 
         if not eid:
-            return ('<span style="color:#ccc">—</span>')
+            return mark_safe('<span style="color:#ccc">—</span>')
 
         if not obj.bt_plan_id:
-            return format_html(
-                '<span title="Inherited from parent plan" style="color:#888;font-style:italic">{}</span>',
-                eid,
-            )
+            html = f'<span title="Inherited from parent plan" style="color:#888;font-style:italic">{eid}</span>'
+            return mark_safe(html)
 
         return str(eid)
