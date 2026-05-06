@@ -29,6 +29,39 @@ jobs:
             git reset --hard origin/main
             git clean -fd
 
+            # ✅ Patch plans/0002 migration: remove the broken RemoveField('currency')
+            #    that references a field which never existed in the DB.
+            #    Runs after git pull so the patch survives every deploy.
+            /var/www/html/zoikobroadband-python/venv/bin/python - <<'PYEOF'
+            import re, pathlib, sys
+
+            migration_dir = pathlib.Path("/var/www/html/zoikobroadband-python/plans/migrations")
+            target = next(migration_dir.glob("0002_remove_planvariation_currency*.py"), None)
+
+            if target is None:
+                print("plans/0002 migration not found — skipping patch")
+                sys.exit(0)
+
+            src = target.read_text()
+
+            # Remove the full migrations.RemoveField(...) block for 'currency'
+            pattern = re.compile(
+                r"\s*migrations\.RemoveField\(\s*"
+                r"model_name=['\"]planvariation['\"],\s*"
+                r"name=['\"]currency['\"],?\s*"
+                r"\),",
+                re.IGNORECASE
+            )
+
+            patched, count = pattern.subn("", src)
+
+            if count:
+                target.write_text(patched)
+                print(f"Patched {target.name}: removed {count} RemoveField('currency') operation(s)")
+            else:
+                print(f"No patch needed in {target.name} (already clean)")
+            PYEOF
+
             # Ensure venv exists
             if [ ! -d "venv" ]; then
               python3 -m venv venv
@@ -44,9 +77,6 @@ jobs:
             # Install deps
             /var/www/html/zoikobroadband-python/venv/bin/pip install --upgrade pip --quiet
             /var/www/html/zoikobroadband-python/venv/bin/pip install -r requirements.txt --quiet
-
-            # ✅ Fix out-of-sync migration: fake plans.0002 if not already applied
-            /var/www/html/zoikobroadband-python/venv/bin/python manage.py migrate plans 0002 --fake 2>/dev/null || true
 
             # Django
             /var/www/html/zoikobroadband-python/venv/bin/python manage.py migrate --fake-initial --no-input
