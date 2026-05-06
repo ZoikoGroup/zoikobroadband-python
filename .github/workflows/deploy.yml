@@ -21,13 +21,25 @@ jobs:
 
             git config --global --add safe.directory /var/www/html/zoikobroadband-python
 
-            # 🔥 HARD RESET (clean state)
+            # Clean deploy
             git fetch origin
             git reset --hard origin/main
             git clean -fd
 
-            source venv/bin/activate
-            pip install -r requirements.txt --quiet
-            python manage.py migrate --no-input
-            python manage.py collectstatic --no-input
+            # Ensure venv exists
+            if [ ! -d "venv" ]; then
+              python3 -m venv venv
+            fi
+
+            # Upgrade pip inside venv
+            /var/www/html/zoikobroadband-python/venv/bin/pip install --upgrade pip --quiet
+
+            # Install deps
+            /var/www/html/zoikobroadband-python/venv/bin/pip install -r requirements.txt --quiet
+
+            # Django commands
+            /var/www/html/zoikobroadband-python/venv/bin/python manage.py migrate --no-input
+            /var/www/html/zoikobroadband-python/venv/bin/python manage.py collectstatic --no-input
+
+            # Restart service
             sudo systemctl restart zoikobroadband-django
