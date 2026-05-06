@@ -19,6 +19,9 @@ jobs:
             set -e
             cd /var/www/html/zoikobroadband-python
 
+            # ✅ FIX ownership FIRST
+            sudo chown -R lennox:lennox /var/www/html/zoikobroadband-python
+
             git config --global --add safe.directory /var/www/html/zoikobroadband-python
 
             # Clean deploy
@@ -31,15 +34,20 @@ jobs:
               python3 -m venv venv
             fi
 
-            # Upgrade pip inside venv
-            /var/www/html/zoikobroadband-python/venv/bin/pip install --upgrade pip --quiet
+            # Recreate if broken
+            if [ ! -x "venv/bin/pip" ]; then
+              echo "Recreating venv..."
+              rm -rf venv
+              python3 -m venv venv
+            fi
 
             # Install deps
+            /var/www/html/zoikobroadband-python/venv/bin/pip install --upgrade pip --quiet
             /var/www/html/zoikobroadband-python/venv/bin/pip install -r requirements.txt --quiet
 
-            # Django commands
+            # Django
             /var/www/html/zoikobroadband-python/venv/bin/python manage.py migrate --no-input
             /var/www/html/zoikobroadband-python/venv/bin/python manage.py collectstatic --no-input
 
-            # Restart service
+            # Restart
             sudo systemctl restart zoikobroadband-django
