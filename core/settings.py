@@ -43,6 +43,8 @@ ALLOWED_HOSTS = [
     'api.zoikobroadband.com',
     '34.147.150.254',
     'localhost',
+    'http://localhost:3001',
+    'http://localhost:3000',
     '127.0.0.1',
     '127.0.0.1:8000',
 ]
@@ -52,6 +54,7 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'jazzmin',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'apps.blog',
+    'apps.bundle_requests',
     'apps.products',
     'apps.accounts',
     'apps.plans',
@@ -72,11 +76,12 @@ INSTALLED_APPS = [
     'django_ckeditor_5',
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',
     'django_filters',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -142,7 +147,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -185,6 +190,7 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://localhost:3001",
     "http://127.0.0.1:3000",
     "http://localhost:3001",
     "http://127.0.0.1:3001",
@@ -208,7 +214,7 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "x-requested-with",
 
-    # ✅ ADD THIS
+    #  ADD THIS
     "x-frontend-origin",
 ]
 
@@ -229,17 +235,21 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # ===============================9999999999999
 # EMAIL / SMTP CONFIGURATION
 # ===============================
+# EMAIL_HOST = "smtpout.secureserver.net"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-EMAIL_HOST = "smtpout.secureserver.net"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
-EMAIL_HOST_USER = "info@zoikogroup.com"
-EMAIL_HOST_PASSWORD = "NoxxMC26070%!LGM"
+EMAIL_HOST_USER = "rahelalakhan@gmail.com"
+EMAIL_HOST_PASSWORD = "jqhq ziub ixtj wrnq"
+# EMAIL_HOST_USER = "info@zoikogroup.com"
+# EMAIL_HOST_PASSWORD = "NoxxMC26070%!LGM"
 
-DEFAULT_FROM_EMAIL = "Zoiko Group <info@zoikogroup.com>"
+# DEFAULT_FROM_EMAIL = "Zoiko Group <info@zoikogroup.com>"
 
 
 
