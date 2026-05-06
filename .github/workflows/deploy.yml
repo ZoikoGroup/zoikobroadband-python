@@ -29,22 +29,13 @@ jobs:
             git reset --hard origin/main
             git clean -fd
 
-            # ✅ Patch plans/0002 migration: remove the broken RemoveField('currency')
-            #    that references a field which never existed in the DB.
-            #    Runs after git pull so the patch survives every deploy.
+            # ✅ Patch ANY plans migration that contains RemoveField('currency')
+            #    regardless of filename — the migration may have been renamed across PRs.
             /var/www/html/zoikobroadband-python/venv/bin/python - <<'PYEOF'
             import re, pathlib, sys
 
             migration_dir = pathlib.Path("/var/www/html/zoikobroadband-python/plans/migrations")
-            target = next(migration_dir.glob("0002_remove_planvariation_currency*.py"), None)
 
-            if target is None:
-                print("plans/0002 migration not found — skipping patch")
-                sys.exit(0)
-
-            src = target.read_text()
-
-            # Remove the full migrations.RemoveField(...) block for 'currency'
             pattern = re.compile(
                 r"\s*migrations\.RemoveField\(\s*"
                 r"model_name=['\"]planvariation['\"],\s*"
@@ -53,13 +44,19 @@ jobs:
                 re.IGNORECASE
             )
 
-            patched, count = pattern.subn("", src)
+            patched_any = False
+            for migration_file in sorted(migration_dir.glob("*.py")):
+                src = migration_file.read_text()
+                if "currency" not in src:
+                    continue
+                patched, count = pattern.subn("", src)
+                if count:
+                    migration_file.write_text(patched)
+                    print(f"Patched {migration_file.name}: removed {count} RemoveField('currency') operation(s)")
+                    patched_any = True
 
-            if count:
-                target.write_text(patched)
-                print(f"Patched {target.name}: removed {count} RemoveField('currency') operation(s)")
-            else:
-                print(f"No patch needed in {target.name} (already clean)")
+            if not patched_any:
+                print("No RemoveField('currency') found in any plans migration — nothing to patch")
             PYEOF
 
             # Ensure venv exists
