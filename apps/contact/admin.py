@@ -3,10 +3,10 @@ from .models import ContactMessage
 
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'short_message', 'created_at')
-    search_fields = ('name', 'email', 'message')
+    list_display = ('first_name', 'last_name', 'email','phone', 'short_message','is_sent', 'created_at')
+    search_fields = ('first_name', 'last_name', 'email', 'phone', 'message')
     list_filter = ('created_at',)
-    readonly_fields = ('name', 'email', 'message', 'created_at')
+    readonly_fields = ('first_name', 'last_name', 'email', 'phone', 'message', 'created_at')
     ordering = ('-created_at',)
 
     def short_message(self, obj):
