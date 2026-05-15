@@ -1,10 +1,32 @@
+"""
+URL routes for bqorders.
+
+Wire into the project's root urls.py with:
+
+    from django.urls import path, include
+    urlpatterns += [
+        path("api/v1/", include("apps.orders.urls")),
+    ]
+"""
+
 from django.urls import path
+
 from .views import (
-    OrderCreateAPIView,
-    UserGroupedOrdersAPIView
+    BTOrderCreateView,
+    BTOrderRetrieveView,
+    BTOrderWebhookView,
 )
 
+app_name = "orders"
+
 urlpatterns = [
-    path("create", OrderCreateAPIView.as_view()),
-    path("by-user", UserGroupedOrdersAPIView.as_view()),
+    # POST  /api/v1/bqorders/                  → create
+    path("bqorders/",                         BTOrderCreateView.as_view(),   name="bqorders-create"),
+
+    # POST  /api/v1/bqorders/webhook/          → BT API 8 notifications
+    # Declared BEFORE the <external_id> pattern so "webhook" is never captured.
+    path("bqorders/webhook/",                 BTOrderWebhookView.as_view(),  name="bqorders-webhook"),
+
+    # GET   /api/v1/bqorders/<external_id>/    → retrieve
+    path("bqorders/<str:external_id>/",       BTOrderRetrieveView.as_view(), name="bqorders-detail"),
 ]
