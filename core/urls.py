@@ -24,8 +24,6 @@ urlpatterns = [
     path('jobs/', include('apps.jobs.urls')),
 
     path('search/', include('apps.search.urls')),
-
-    path('api/v1/', include('apps.coupons.api_urls')),
 ]
 
 if settings.DEBUG:
