@@ -1,11 +1,14 @@
 """
 Models for BT Wholesale orders.
 
-One BTOrder row per checkout. The full Next.js / BT payload is stored as
-JSON blobs (`cart_raw`, `bt_response_raw`, etc.) so nothing is lost; the
-denormalised columns alongside them exist for indexed lookups and admin
-filtering. BTOrderEvent appends one row per state change (initial creation,
-BT webhook notifications, manual edits) — never overwritten.
+One BTOrder row per checkout. The cart / address / totals payloads from
+the Next.js client are stored as JSON blobs (`cart_raw`, etc.) so nothing
+is lost; the denormalised columns alongside them exist for indexed lookups
+and admin filtering. The BT API response itself is intentionally NOT
+persisted — only its derived fields (`bt_order_id`, `local_status`,
+`appointment_*`, etc.) are kept. BTOrderEvent appends one row per state
+change (initial creation, BT webhook notifications, manual edits) — never
+overwritten.
 """
 
 from __future__ import annotations
@@ -151,8 +154,6 @@ class BTOrder(models.Model):
     totals_raw           = models.JSONField(default=dict, blank=True)
     coupon_raw           = models.JSONField(default=dict, blank=True, null=True)
 
-    # Everything BT returned (the `btData` field from the Next.js BT route)
-    bt_response_raw      = models.JSONField(default=dict, blank=True)
     # Raw envelope received by this endpoint (full request body)
     request_payload_raw  = models.JSONField(default=dict, blank=True)
 
