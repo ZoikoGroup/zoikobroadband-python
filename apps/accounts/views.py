@@ -17,7 +17,8 @@ from .serializers import (
     LoginSerializer,
     ForgotPasswordSerializer,
     ResetPasswordSerializer,
-    UpdateUserSerializer
+    UpdateUserSerializer,
+    ChangePasswordSerializer,
 )
 
 
@@ -250,6 +251,24 @@ class UpdateUserAPI(APIView):
             "message": "Profile updated successfully",
             "user": response_data
         })
+
+
+# ---------------- CHANGE PASSWORD ----------------
+class ChangePasswordAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(
+            data=request.data,
+            context={"request": request}
+        )
+        serializer.is_valid(raise_exception=True)
+        request.user.set_password(serializer.validated_data["new_password"])
+        request.user.save()
+        # Re-issue token so the user stays logged in after password change
+        request.user.auth_token.delete()
+        token, _ = Token.objects.get_or_create(user=request.user)
+        return Response({"message": "Password changed successfully.", "token": token.key})
 
 
 # ---------------- SOCIAL LOGIN / REGISTER ----------------
