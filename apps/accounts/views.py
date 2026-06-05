@@ -243,13 +243,9 @@ class UpdateUserAPI(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        # Include vc_enrollment_id in response
-        response_data = serializer.data
-        response_data['vc_enrollment_id'] = getattr(request.user.profile, 'vc_enrollment_id', None)
-
         return Response({
             "message": "Profile updated successfully",
-            "user": response_data
+            "user": serializer.data
         })
 
 
