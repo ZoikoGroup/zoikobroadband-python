@@ -12,7 +12,10 @@ class BundleRequestSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Phone number must contain only digits")
         if len(value) < 10:
             raise serializers.ValidationError("Phone number must be at least 10 digits")
+        if len(value) > 15:
+            raise serializers.ValidationError("Phone number cannot contain more than 15 digits")
         return value
+        
 
     # Object-level validation
     def validate(self, data):
