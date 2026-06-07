@@ -185,18 +185,17 @@ class BTOrderCreateSerializer(serializers.Serializer):
             shipping_address_raw = shipping,
             totals_raw           = totals,
             coupon_raw           = coupon,
-            bt_response_raw      = validated_data.get("btData") or {},
             request_payload_raw  = raw_envelope,
         )
 
         # Initial event — captures the exact creation moment.
+        # NOTE: we intentionally do NOT persist the raw BT response here.
         BTOrderEvent.objects.create(
             order        = order,
             external_id  = order.external_id,
             source       = BTOrderEvent.Source.CHECKOUT,
             event_type   = "OrderCreated",
             state        = order.bt_state,
-            payload_raw  = validated_data.get("btData") or {},
         )
 
         return order

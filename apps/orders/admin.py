@@ -37,7 +37,7 @@ class BTOrderAdmin(admin.ModelAdmin):
         "created_at", "updated_at",
         "cart_raw", "service_address_raw", "billing_address_raw",
         "shipping_address_raw", "totals_raw", "coupon_raw",
-        "bt_response_raw", "request_payload_raw",
+        "request_payload_raw",
     )
 
     fieldsets = (
@@ -83,7 +83,7 @@ class BTOrderAdmin(admin.ModelAdmin):
                 "cart_raw", "service_address_raw",
                 "billing_address_raw", "shipping_address_raw",
                 "totals_raw", "coupon_raw",
-                "bt_response_raw", "request_payload_raw",
+                "request_payload_raw",
             ),
         }),
         ("Timestamps", {"fields": ("created_at", "updated_at")}),

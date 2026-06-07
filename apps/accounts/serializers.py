@@ -71,6 +71,24 @@ class ResetPasswordSerializer(serializers.Serializer):
         return attrs
 
 
+# ---------------- CHANGE PASSWORD ----------------
+class ChangePasswordSerializer(serializers.Serializer):
+    current_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True, validators=[validate_password])
+    new_password2 = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        if attrs['new_password'] != attrs['new_password2']:
+            raise serializers.ValidationError({"new_password": "New passwords do not match."})
+        return attrs
+
+    def validate_current_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Current password is incorrect.")
+        return value
+
+
 # ---------------- UPDATE PROFILE ----------------
 # class UpdateUserSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -85,32 +103,12 @@ class ResetPasswordSerializer(serializers.Serializer):
 
 # serializers.py
 class UpdateUserSerializer(serializers.ModelSerializer):
-    vc_enrollment_id = serializers.CharField(
-        source='profile.vc_enrollment_id',  # points to profile model
-        required=False,
-        allow_blank=True
-    )
-
     class Meta:
         model = User
-        fields = ["username", "email", "first_name", "last_name", "vc_enrollment_id"]
+        fields = ["username", "email", "first_name", "last_name"]
 
     def validate_email(self, value):
         user = self.context['request'].user
         if User.objects.exclude(pk=user.pk).filter(email=value).exists():
             raise serializers.ValidationError("Email already in use")
         return value
-
-    def update(self, instance, validated_data):
-        profile_data = validated_data.pop('profile', {})
-        vc_id = profile_data.get('vc_enrollment_id')
-
-        # Update User fields
-        instance = super().update(instance, validated_data)
-
-        # Update VC ID if provided
-        if vc_id is not None:
-            instance.profile.vc_enrollment_id = vc_id
-            instance.profile.save()
-
-        return instance
