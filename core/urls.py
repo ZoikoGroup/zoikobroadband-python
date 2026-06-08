@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/blog/', include('apps.blog.api_urls', namespace='blog_api')),
     path('api/', include('apps.bundle_requests.urls')),
     path('api/business-broadband/', include('apps.business_broadband.urls')),
+    path("api/digital-lines/",include("apps.digital_lines.urls")),
     path('api/products/', include('apps.products.api_urls', namespace='products_api')),
     path("api/v1/plans/", include("apps.plans.urls", namespace="plans")),
     path('api/accounts/', include('apps.accounts.urls')),

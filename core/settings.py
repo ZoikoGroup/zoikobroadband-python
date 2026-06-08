@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'apps.business_broadband',
     'apps.products',
     'apps.accounts',
+    'apps.digital_lines',
     'apps.plans',
     'apps.coupons',
     'apps.orders',
