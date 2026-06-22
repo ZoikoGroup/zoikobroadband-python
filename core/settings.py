@@ -253,4 +253,4 @@ DEFAULT_FROM_EMAIL = "Zoiko Group <info@zoikogroup.com>"
 
 
 # settings.py cors
-NEXT_PUBLIC_GOOGLE_CLIENT_ID = "547329257469-b37a10q39ipdrf21jjldn1g727ta747h.apps.googleusercontent.com"
+GOOGLE_OAUTH_CLIENT_ID  = "547329257469-b37a10q39ipdrf21jjldn1g727ta747h.apps.googleusercontent.com"
