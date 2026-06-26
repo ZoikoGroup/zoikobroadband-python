@@ -245,10 +245,10 @@ EMAIL_PORT = 465
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
-EMAIL_HOST_USER = "info@zoikogroup.com"
-EMAIL_HOST_PASSWORD = "NoxxMC26070%!LGM"
+EMAIL_HOST_USER = "info@zoikobroadband.com"
+EMAIL_HOST_PASSWORD = "NoxxMC26070%"
 
-DEFAULT_FROM_EMAIL = "Zoiko Group <info@zoikogroup.com>"
+DEFAULT_FROM_EMAIL = "Zoiko Group <info@zoikobroadband.com>"
 
 
 
