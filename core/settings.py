@@ -246,11 +246,13 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
 EMAIL_HOST_USER = "info@zoikobroadband.com"
-EMAIL_HOST_PASSWORD = "NoxxMC26070%!LGM"
+EMAIL_HOST_PASSWORD = "NoxxMC26070%!LG"
 
 DEFAULT_FROM_EMAIL = "Zoiko Group <info@zoikobroadband.com>"
 
-
-
 # settings.py cors
 GOOGLE_OAUTH_CLIENT_ID  = "547329257469-b37a10q39ipdrf21jjldn1g727ta747h.apps.googleusercontent.com"
+
+
+
+
