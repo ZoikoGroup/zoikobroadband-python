@@ -246,7 +246,7 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
 EMAIL_HOST_USER = "info@zoikobroadband.com"
-EMAIL_HOST_PASSWORD = "NoxxMC26070%"
+EMAIL_HOST_PASSWORD = "NoxxMC26070%!LGM"
 
 DEFAULT_FROM_EMAIL = "Zoiko Group <info@zoikobroadband.com>"
 
