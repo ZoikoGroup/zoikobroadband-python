@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'apps.products',
     'apps.accounts',
     'apps.digital_lines',
+    'apps.fault',
     'apps.plans',
     'apps.coupons',
     'apps.orders',

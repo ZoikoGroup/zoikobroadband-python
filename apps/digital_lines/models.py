@@ -35,5 +35,31 @@ class DigitalLineOrder(models.Model):
         default="new"
     )
 
+    plan_summary = models.JSONField(default=dict, blank=True)
+
+    equipment_summary = models.JSONField(default=list, blank=True)
+
+    addons_summary = models.JSONField(default=list, blank=True)
+
+    charge_changes_summary = models.JSONField(default=list, blank=True)
+
+    monthly_total = models.DecimalField(
+    max_digits=10,
+    decimal_places=2,
+    default=0,
+    )
+
+    one_off_total = models.DecimalField(
+    max_digits=10,
+    decimal_places=2,
+    default=0,
+    )
+
+    total_due_today = models.DecimalField(
+    max_digits=10,
+    decimal_places=2,
+    default=0,
+    )
+
     def __str__(self):
         return f"Digital Line Order #{self.id}"
