@@ -245,10 +245,10 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
-EMAIL_HOST_USER = "info@zoikobroadband.com"
-EMAIL_HOST_PASSWORD = "NoxxMC26070%!LG"
+EMAIL_HOST_USER = "info@zoikoorbit.com"
+EMAIL_HOST_PASSWORD = "NoxxMC26070%!LGM"
 
-DEFAULT_FROM_EMAIL = "Zoiko Group <info@zoikobroadband.com>"
+DEFAULT_FROM_EMAIL = "Zoiko Group <info@zoikoorbit.com>"
 
 # settings.py cors
 GOOGLE_OAUTH_CLIENT_ID  = "547329257469-b37a10q39ipdrf21jjldn1g727ta747h.apps.googleusercontent.com"
