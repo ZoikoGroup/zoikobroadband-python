@@ -106,9 +106,5 @@ class UpdateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["username", "email", "first_name", "last_name"]
-
-    def validate_email(self, value):
-        user = self.context['request'].user
-        if User.objects.exclude(pk=user.pk).filter(email=value).exists():
-            raise serializers.ValidationError("Email already in use")
-        return value
+        # Email is shown to the user but cannot be changed via this endpoint.
+        read_only_fields = ["email"]
